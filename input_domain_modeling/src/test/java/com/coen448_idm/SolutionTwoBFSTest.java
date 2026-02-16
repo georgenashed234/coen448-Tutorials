@@ -4,7 +4,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,67 +19,69 @@ public class SolutionTwoBFSTest {
     // Each Choice Coverage (ECC) Tests
     // ============================================================
 
-    // @ParameterizedTest(name = "ECC-{0}: {8}")
-    // @CsvFileSource(resources = "/test_cases_ecc.csv", numLinesToSkip = 1)
-    // @DisplayName("ECC Tests - Each Choice Coverage")
-    // void testEachChoiceCoverage(
-    //         String testID,
-    //         String graphSize,
-    //         String edgePresence,
-    //         String graphStructure,
-    //         String cyclePresence,
-    //         String selfLoops,
-    //         String nodeIndexValidity,
-    //         String nullInput,
-    //         String expectedStr,
-    //         String description,
-    //         String graphJSON) {
+    @ParameterizedTest(name = "ECC-{0}: {8}")
+    @CsvFileSource(resources = "/test_cases_ecc.csv", numLinesToSkip = 1)
+    @DisplayName("ECC Tests - Each Choice Coverage")
+    void testEachChoiceCoverage(
+            String testID,
+            String graphSize,
+            String edgePresence,
+            String graphStructure,
+            String cyclePresence,
+            String selfLoops,
+            String nodeIndexValidity,
+            String nullInput,
+            String expectedStr,
+            String description,
+            String graphJSON) {
         
-    //     boolean expected = parseExpected(expectedStr);
-    //     int[][] graph = parseGraph(graphSize, cyclePresence, graphStructure, nullInput);
+        int[][] graph = parseGraph(testID, graphSize, edgePresence, graphStructure, cyclePresence,
+                                   selfLoops, nodeIndexValidity, nullInput);
 
-    //     if (expected == false && isExceptionCase(expectedStr)) {
-    //         assertThrows(Exception.class, () -> solution.isBipartite(graph),
-    //                 "Test " + testID + ": " + description + " should throw exception");
-    //     } else {
-    //         boolean result = solution.isBipartite(graph);
-    //         assertEquals(expected, result,
-    //                 "Test " + testID + ": " + description + " expected " + expected + " but got " + result);
-    //     }
-    // }
+        if (isExceptionCase(expectedStr)) {
+            assertThrows(Exception.class, () -> solution.isBipartite(graph),
+                    "Test " + testID + ": " + description + " should throw exception");
+        } else {
+            boolean expected = Boolean.parseBoolean(expectedStr);
+            boolean result = solution.isBipartite(graph);
+            assertEquals(expected, result,
+                    "Test " + testID + ": " + description + " expected " + expected + " but got " + result);
+        }
+    }
 
-    // // ============================================================
-    // // Basic Choice Coverage (BCC) Tests
-    // // ============================================================
+    // ============================================================
+    // Basic Choice Coverage (BCC) Tests
+    // ============================================================
 
-    // @ParameterizedTest(name = "BCC-{0}: {8}")
-    // @CsvFileSource(resources = "/test_cases_bcc.csv", numLinesToSkip = 1)
-    // @DisplayName("BCC Tests - Basic Choice Coverage")
-    // void testBasicChoiceCoverage(
-    //         String testID,
-    //         String graphSize,
-    //         String edgePresence,
-    //         String graphStructure,
-    //         String cyclePresence,
-    //         String selfLoops,
-    //         String nodeIndexValidity,
-    //         String nullInput,
-    //         String expectedStr,
-    //         String description,
-    //         String graphJSON) {
+    @ParameterizedTest(name = "BCC-{0}: {8}")
+    @CsvFileSource(resources = "/test_cases_bcc.csv", numLinesToSkip = 1)
+    @DisplayName("BCC Tests - Basic Choice Coverage")
+    void testBasicChoiceCoverage(
+            String testID,
+            String graphSize,
+            String edgePresence,
+            String graphStructure,
+            String cyclePresence,
+            String selfLoops,
+            String nodeIndexValidity,
+            String nullInput,
+            String expectedStr,
+            String description,
+            String graphJSON) {
         
-    //     boolean expected = parseExpected(expectedStr);
-    //     int[][] graph = parseGraph(graphSize, cyclePresence, graphStructure, nullInput);
+        int[][] graph = parseGraph(testID, graphSize, edgePresence, graphStructure, cyclePresence,
+                                   selfLoops, nodeIndexValidity, nullInput);
 
-    //     if (isExceptionCase(expectedStr)) {
-    //         assertThrows(Exception.class, () -> solution.isBipartite(graph),
-    //                 "Test " + testID + ": " + description + " should throw exception");
-    //     } else {
-    //         boolean result = solution.isBipartite(graph);
-    //         assertEquals(expected, result,
-    //                 "Test " + testID + ": " + description);
-    //     }
-    // }
+        if (isExceptionCase(expectedStr)) {
+            assertThrows(Exception.class, () -> solution.isBipartite(graph),
+                    "Test " + testID + ": " + description + " should throw exception");
+        } else {
+            boolean expected = Boolean.parseBoolean(expectedStr);
+            boolean result = solution.isBipartite(graph);
+            assertEquals(expected, result,
+                    "Test " + testID + ": " + description + " expected " + expected + " but got " + result);
+        }
+    }
 
     // ============================================================
     // Unit Tests for Specific Scenarios
@@ -122,7 +126,8 @@ public class SolutionTwoBFSTest {
     @DisplayName("Self-loop is NOT bipartite")
     void testSelfLoop() {
         int[][] graph = {{0}};
-        assertFalse(solution.isBipartite(graph));
+        assertFalse(solution.isBipartite(graph),
+                "Self-loop should make graph non-bipartite");
     }
 
     @Test
@@ -136,39 +141,51 @@ public class SolutionTwoBFSTest {
     @DisplayName("Null graph throws NullPointerException")
     void testNullGraph() {
         int[][] graph = null;
-        assertThrows(NullPointerException.class, () -> solution.isBipartite(graph));
+        assertThrows(NullPointerException.class, () -> solution.isBipartite(graph),
+                "Null graph should throw NullPointerException");
     }
 
     @Test
     @DisplayName("Null adjacency list throws NullPointerException")
     void testNullAdjacencyList() {
         int[][] graph = {{1}, null, {0}};
-        assertThrows(NullPointerException.class, () -> solution.isBipartite(graph));
+        assertThrows(NullPointerException.class, () -> solution.isBipartite(graph),
+                "Null adjacency list should throw NullPointerException");
     }
 
     @Test
     @DisplayName("Invalid node index throws IndexOutOfBoundsException")
     void testInvalidNodeIndex() {
         int[][] graph = {{5}, {0}};
-        assertThrows(IndexOutOfBoundsException.class, () -> solution.isBipartite(graph));
+        assertThrows(IndexOutOfBoundsException.class, () -> solution.isBipartite(graph),
+                "Invalid node index should throw IndexOutOfBoundsException");
+    }
+
+    @Test
+    @DisplayName("Negative node index throws IndexOutOfBoundsException")
+    void testNegativeNodeIndex() {
+        int[][] graph = {{-1}, {0}};
+        assertThrows(IndexOutOfBoundsException.class, () -> solution.isBipartite(graph),
+                "Negative node index should throw IndexOutOfBoundsException");
     }
 
     // ============================================================
     // Helper Methods
     // ============================================================
 
-    private boolean parseExpected(String expectedStr) {
-        if ("Exception".equalsIgnoreCase(expectedStr)) {
-            return false; // placeholder
-        }
-        return Boolean.parseBoolean(expectedStr);
-    }
-
     private boolean isExceptionCase(String expectedStr) {
         return "Exception".equalsIgnoreCase(expectedStr);
     }
 
-    private int[][] parseGraph(String graphSize, String cyclePresence, String graphStructure, String nullInput) {
+    /**
+     * Parse graph based on test characteristics.
+     * Match on TestID first, then fall back to characteristics.
+     */
+    private int[][] parseGraph(String testID, String graphSize, String edgePresence,
+                               String graphStructure, String cyclePresence,
+                               String selfLoops, String nodeIndexValidity, String nullInput) {
+        
+        // Handle null input cases
         if ("Null".equalsIgnoreCase(nullInput)) {
             return null;
         }
@@ -176,15 +193,26 @@ public class SolutionTwoBFSTest {
             return new int[][]{{1}, null, {0}};
         }
 
+        // Handle self-loop cases
+        if ("Yes".equalsIgnoreCase(selfLoops)) {
+            return new int[][]{{0}}; // Self-loop: node 0 connected to itself
+        }
+
+        // Handle invalid index cases
+        if ("Invalid".equalsIgnoreCase(nodeIndexValidity)) {
+            return new int[][]{{5}, {0}}; // Node 5 referenced but doesn't exist
+        }
+
+        // Handle standard graph cases by cycle presence
         switch (cyclePresence) {
             case "NoCycles":
-                return new int[][]{{1}, {0, 2}, {1}};
+                return new int[][]{{1}, {0, 2}, {1}}; // Tree: 0-1-2
             case "EvenCycle":
-                return new int[][]{{1, 3}, {0, 2}, {1, 3}, {0, 2}};
+                return new int[][]{{1, 3}, {0, 2}, {1, 3}, {0, 2}}; // 4-cycle square
             case "OddCycle":
-                return new int[][]{{1, 2}, {0, 2}, {0, 1}};
+                return new int[][]{{1, 2}, {0, 2}, {0, 1}}; // 3-cycle triangle
             default:
-                return new int[][]{};
+                return new int[][]{}; // Empty graph
         }
     }
 }
