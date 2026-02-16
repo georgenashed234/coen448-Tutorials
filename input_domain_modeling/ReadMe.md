@@ -1,4 +1,52 @@
-# 1) Acceptance Criteria
+
+
+
+### ECC (Each Choice Coverage) and BCC (Base Choice Coverage)
+are input space partitioning (ISP) criteria used to determine which combinations of input values to select when testing, aiming to reduce a large input domain into a manageable, finite set of test cases. 
+
+### Each Choice Coverage (ECC)
+Definition: Requires that at least one value from each **block** (partition) for each **characteristic** (parameter) be used in at least one test case.
+Goal: To ensure every partition is exercised at least once
+
+### Base Choice Coverage (BCC)
+Definition: Requires that a "base choice" (usually the most nominal or common value) is chosen for each characteristic, forming a base test case. Subsequent tests are created by holding all but one base choice constant and varying the remaining parameter to one of its other values.
+Goal: To test the most common scenarios thoroughly while varying one parameter at a time.
+
+
+![table](ecc-vs-bcc.png)
+
+
+## Input Domain Modeling (IDM) Table
+Program Characteristics & Block Values
+
+![table](idm-table.png)
+
+
+#  Each Choice Coverage (ECC) Comprehensive (test all possibilities for graph isBarpartite algorithm)
+
+
+# Basic Choice Coverage (BCC) Concise (test essentials only)
+
+BCC Test Cases Details
+
+// BCC-01: Empty graph
+int[][] graphBCC01 = {};
+
+// BCC-02: Even cycle (bipartite)
+int[][] graphBCC02 = {{1, 3}, {0, 2}, {1, 3}, {0, 2}};
+
+// BCC-03: Odd cycle (non-bipartite)
+int[][] graphBCC03 = {{1, 2}, {0, 2}, {0, 1}};
+
+// BCC-04: Self-loop
+int[][] graphBCC04 = {{0}};
+
+// BCC-05: Invalid index
+int[][] graphBCC05 = {{10}, {0}};
+
+// BCC-06: Null graph
+int[][] graphBCC06 = null;
+
 
 # Acceptance Criteria for isBipartite(int[][] graph)
 
@@ -25,18 +73,6 @@
 - `NullPointerException`: null input or null adjacency lists
 - `IndexOutOfBoundsException`: node indices out of valid range [0, graph.length)
 - `IllegalArgumentException`: negative or invalid node indices
-
-
-# 2) Input Domain Modeling (IDM) Table
-Program Characteristics & Block Values
-
-
-![table](idm-table.png)
-
-![table](ecc-vs-bcc.png)
-
-#  Each Choice Coverage (ECC) Comprehensive (test all possibilities)
-
    
 ECC Test Cases Details
 
@@ -83,25 +119,3 @@ int[][] graph10 = null;
 // ECC-11: Null adjacency list
 int[][] graph11 = {{1}, null, {0}};
 // Expected: NullPointerException
-
-# Basic Choice Coverage (BCC) Concise (test essentials only)
-
-BCC Test Cases Details
-
-// BCC-01: Empty graph
-int[][] graphBCC01 = {};
-
-// BCC-02: Even cycle (bipartite)
-int[][] graphBCC02 = {{1, 3}, {0, 2}, {1, 3}, {0, 2}};
-
-// BCC-03: Odd cycle (non-bipartite)
-int[][] graphBCC03 = {{1, 2}, {0, 2}, {0, 1}};
-
-// BCC-04: Self-loop
-int[][] graphBCC04 = {{0}};
-
-// BCC-05: Invalid index
-int[][] graphBCC05 = {{10}, {0}};
-
-// BCC-06: Null graph
-int[][] graphBCC06 = null;
