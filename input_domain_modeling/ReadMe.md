@@ -5,18 +5,13 @@
 are input space partitioning (ISP) criteria used to determine which combinations of input values to select when testing, aiming to reduce a large input domain into a manageable, finite set of test cases. 
 
 ### Each Choice Coverage (ECC)
-Definition: Requires that at least one value from each block (partition) for each characteristic (parameter) be used in at least one test case.
-Goal: To ensure every partition is exercised at least once, providing a very weak but efficient form of coverage.
-Test Generation: The number of tests required is determined by the maximum number of blocks among all characteristics.
-Strengths: Very low cost and few test cases, suitable for initial testing.
-Weaknesses: Might miss important combinations of inputs because it only guarantees individual coverage, not interaction. 
+Definition: Requires that at least one value from each **block** (partition) for each **characteristic** (parameter) be used in at least one test case.
+Goal: To ensure every partition is exercised at least once
 
 ### Base Choice Coverage (BCC)
 Definition: Requires that a "base choice" (usually the most nominal or common value) is chosen for each characteristic, forming a base test case. Subsequent tests are created by holding all but one base choice constant and varying the remaining parameter to one of its other values.
 Goal: To test the most common scenarios thoroughly while varying one parameter at a time.
 
-Strengths: More robust than ECC because it focuses on combinations around a "normal" case, often used to test the "happy path" and its direct variations.
-Weaknesses: Requires more tests than ECC and requires knowledge of which inputs constitute a "base" case. 
 
 ### Key Differences
 Approach: ECC picks arbitrary values from each block to meet minimal coverage. BCC requires picking a specific "base" value for each parameter.
