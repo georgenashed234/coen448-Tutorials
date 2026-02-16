@@ -1,9 +1,6 @@
 
 
 
-# 2) Input Domain Modeling (IDM) Table
-Program Characteristics & Block Values
-
 ### ECC (Each Choice Coverage) and BCC (Base Choice Coverage)
 are input space partitioning (ISP) criteria used to determine which combinations of input values to select when testing, aiming to reduce a large input domain into a manageable, finite set of test cases. 
 
@@ -30,6 +27,9 @@ Effectiveness: BCC is typically more effective than ECC at finding bugs because 
 ![table](ecc-vs-bcc.png)
 
 #  Each Choice Coverage (ECC) Comprehensive (test all possibilities for graph isBarpartite algorithm)
+
+## Input Domain Modeling (IDM) Table
+Program Characteristics & Block Values
 
 ![table](idm-table.png)
 
