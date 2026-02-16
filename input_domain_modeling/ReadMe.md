@@ -13,20 +13,39 @@ Definition: Requires that a "base choice" (usually the most nominal or common va
 Goal: To test the most common scenarios thoroughly while varying one parameter at a time.
 
 
-### Key Differences
-Approach: ECC picks arbitrary values from each block to meet minimal coverage. BCC requires picking a specific "base" value for each parameter.
-Test Set Size: ECC generally results in fewer tests than BCC.
-Effectiveness: BCC is typically more effective than ECC at finding bugs because it tests combinations of input variations rather than just individual partitions. 
-
-
 ![table](ecc-vs-bcc.png)
 
-#  Each Choice Coverage (ECC) Comprehensive (test all possibilities for graph isBarpartite algorithm)
 
 ## Input Domain Modeling (IDM) Table
 Program Characteristics & Block Values
 
 ![table](idm-table.png)
+
+
+#  Each Choice Coverage (ECC) Comprehensive (test all possibilities for graph isBarpartite algorithm)
+
+
+# Basic Choice Coverage (BCC) Concise (test essentials only)
+
+BCC Test Cases Details
+
+// BCC-01: Empty graph
+int[][] graphBCC01 = {};
+
+// BCC-02: Even cycle (bipartite)
+int[][] graphBCC02 = {{1, 3}, {0, 2}, {1, 3}, {0, 2}};
+
+// BCC-03: Odd cycle (non-bipartite)
+int[][] graphBCC03 = {{1, 2}, {0, 2}, {0, 1}};
+
+// BCC-04: Self-loop
+int[][] graphBCC04 = {{0}};
+
+// BCC-05: Invalid index
+int[][] graphBCC05 = {{10}, {0}};
+
+// BCC-06: Null graph
+int[][] graphBCC06 = null;
 
 
 # Acceptance Criteria for isBipartite(int[][] graph)
@@ -100,25 +119,3 @@ int[][] graph10 = null;
 // ECC-11: Null adjacency list
 int[][] graph11 = {{1}, null, {0}};
 // Expected: NullPointerException
-
-# Basic Choice Coverage (BCC) Concise (test essentials only)
-
-BCC Test Cases Details
-
-// BCC-01: Empty graph
-int[][] graphBCC01 = {};
-
-// BCC-02: Even cycle (bipartite)
-int[][] graphBCC02 = {{1, 3}, {0, 2}, {1, 3}, {0, 2}};
-
-// BCC-03: Odd cycle (non-bipartite)
-int[][] graphBCC03 = {{1, 2}, {0, 2}, {0, 1}};
-
-// BCC-04: Self-loop
-int[][] graphBCC04 = {{0}};
-
-// BCC-05: Invalid index
-int[][] graphBCC05 = {{10}, {0}};
-
-// BCC-06: Null graph
-int[][] graphBCC06 = null;
